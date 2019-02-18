@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.netease.dao.BusinessmanDao">
+    <resultMap id="map" type="com.netease.domain.Businessman">
+        <id property="userId" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="password" column="password"/>
+        <result property="balance" column="balance"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="logoutTime" column="logout_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <collection property="inventoryList" column="user_id"
+                    select="com.netease.dao.InventoryDao.findInventoryByUserId"/>
+    </resultMap>
+
+    <select id="getBusinessmanByUserId" resultMap="map" resultType="com.netease.domain.Businessman"
+            parameterType="java.lang.String">
+        SELECT * FROM t_businessman WHERE user_id=#{user_id}
+    </select>
+
+    <select id="getBusinessmanByNickname" resultMap="map" resultType="com.netease.domain.Businessman"
+            parameterType="java.lang.String">
+        SELECT * FROM t_businessman WHERE nickname=#{nickname}
+    </select>
+
+    <insert id="insertBusinessman" parameterType="com.netease.domain.Businessman">
+        INSERT INTO t_businessman(user_id,nickname,password,balance,login_time,logout_time)
+        VALUES (#{userId},#{nickname},#{password},#{balance},#{loginTime},#{logoutTime})
+    </insert>
+
+    <update id="updatePassword">
+        UPDATE t_businessman SET password=#{password} WHERE nickname=#{nickname}
+    </update>
+
+    <update id="updateNickname">
+        UPDATE t_businessman SET nickname=#{name} WHERE nickname=#{nickname}
+    </update>
+
+    <update id="updateInfo" parameterType="com.netease.domain.Businessman">
+        UPDATE t_businessman SET nickname=#{nickname},password=#{password},balance=#{balance},
+        login_time=#{loginTime},logout_time=#{logoutTime} WHERE user_id=#{userId}
+    </update>
+
+    <delete id="deleteByNickname" parameterType="java.lang.String">
+        DELETE FROM t_businessman WHERE nickname=#{nickname}
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="java.lang.String">
+        DELETE FROM t_businessman WHERE user_id=#{user_id}
+    </delete>
+
+</mapper>

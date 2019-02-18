@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.netease.dao.InventoryDao">
+    <resultMap id="result" type="com.netease.domain.Inventory">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="count" column="count"/>
+        <result property="hasSold" column="has_sold"/>
+    </resultMap>
+
+    <select id="getInventoryById" resultMap="result" parameterType="int" resultType="com.netease.domain.Inventory">
+        SELECT * FROM t_inventory WHERE id=#{id}
+    </select>
+
+    <insert id="insertInventory" parameterType="com.netease.domain.Inventory"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_inventory(user_id,product_id,count,has_sold)
+        VALUES (#{userId},#{productId},#{count},#{hasSold})
+    </insert>
+
+    <update id="updateInventory" parameterType="com.netease.domain.Inventory">
+        UPDATE t_inventory SET user_id=#{userId},product_id=#{productId},count=#{count},
+        has_sold=#{hasSold} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteInventory" parameterType="int">
+        DELETE FROM t_inventory WHERE id=#{id}
+    </delete>
+
+    <select id="findInventoryByUserId" parameterType="java.lang.String" resultMap="result"
+            resultType="java.util.List">
+        SELECT * FROM t_inventory WHERE user_id=#{user_id}
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.netease.dao.ImageDao">
+
+    <resultMap id="r" type="com.netease.domain.Image">
+        <id property="id" column="id"/>
+        <result property="productId" column="product_id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <select id="getImageById" resultMap="r" resultType="com.netease.domain.Image" parameterType="int">
+        SELECT * FROM t_image WHERE id=#{id}
+    </select>
+
+    <insert id="insertImage" parameterType="com.netease.domain.Image" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_image(product_id,name,url) VALUES (#{productId},#{name},#{url})
+    </insert>
+
+    <update id="updateImage" parameterType="com.netease.domain.Image">
+        UPDATE t_image SET product_id=#{productId},name=#{name},url=#{url}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteImageById" parameterType="int">
+        DELETE FROM t_image WHERE id=#{id}
+    </delete>
+
+    <select id="findImageByProductId" resultMap="r" resultType="java.util.List"
+            parameterType="int">
+        SELECT * FROM t_image WHERE product_id=#{product_id}
+    </select>
+
+</mapper>

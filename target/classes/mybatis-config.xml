@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+    </settings>
+
+    <mappers>
+        <mapper resource="mapper/image-mapper.xml"/>
+        <mapper resource="mapper/product-mapper.xml"/>
+        <mapper resource="mapper/shoppinginfo-mapper.xml"/>
+        <mapper resource="mapper/inventory-mapper.xml"/>
+        <mapper resource="mapper/cartinfo-mapper.xml"/>
+        <mapper resource="mapper/businessman-mapper.xml"/>
+        <mapper resource="mapper/user-mapper.xml"/>
+    </mappers>
+</configuration>

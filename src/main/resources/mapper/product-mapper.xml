@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.netease.dao.ProductDao">
+    <resultMap id="result" type="com.netease.domain.Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productAbstract" column="product_abstract"/>
+        <result property="productDescription" column="product_description"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="updateTime" column="update_time"/>
+
+        <collection property="images" column="product_id"
+                    select="com.netease.dao.ImageDao.findImageByProductId"/>
+    </resultMap>
+
+    <select id="getProductById" resultMap="result" parameterType="int" resultType="com.netease.domain.Product">
+        SELECT * FROM t_product WHERE product_id=#{id}
+    </select>
+
+    <select id="getProductByName" resultMap="result" parameterType="java.lang.String" resultType="com.netease.domain.Product">
+        SELECT * FROM t_product WHERE product_name=#{name}
+    </select>
+
+    <insert id="insertProduct" parameterType="com.netease.domain.Product">
+        INSERT INTO t_product(product_id,product_name,product_abstract,product_description,product_price)
+        VALUES (#{productId},#{productName},#{productAbstract},#{productDescription},#{productPrice})
+    </insert>
+
+    <delete id="deleteProductById" parameterType="int">
+        DELETE FROM t_product WHERE product_id=#{id}
+    </delete>
+
+    <delete id="deleteProductByName" parameterType="java.lang.String">
+        DELETE FROM t_product WHERE product_name=#{name}
+    </delete>
+
+    <update id="updateProduct" parameterType="com.netease.domain.Product">
+        UPDATE t_product SET product_name=#{productName},
+        product_abstract=#{productAbstract},product_description=#{productDescription},
+        product_price=#{productPrice} WHERE product_id=#{productId}
+    </update>
+
+</mapper>
