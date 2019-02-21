@@ -5,6 +5,8 @@
 
 <mapper namespace="com.netease.dao.ImageDao">
 
+    <cache type="com.netease.cache.RedisCache"/>
+
     <resultMap id="r" type="com.netease.domain.Image">
         <id property="id" column="id"/>
         <result property="productId" column="product_id"/>
@@ -12,7 +14,7 @@
         <result property="url" column="url"/>
     </resultMap>
 
-    <select id="getImageById" resultMap="r" resultType="com.netease.domain.Image" parameterType="int">
+    <select id="getImageById" resultMap="r" resultType="com.netease.domain.Image" parameterType="int" useCache="true">
         SELECT * FROM t_image WHERE id=#{id}
     </select>
 
@@ -30,7 +32,7 @@
     </delete>
 
     <select id="findImageByProductId" resultMap="r" resultType="java.util.List"
-            parameterType="int">
+            parameterType="int" useCache="true">
         SELECT * FROM t_image WHERE product_id=#{product_id}
     </select>
 

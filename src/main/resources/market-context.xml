@@ -17,8 +17,14 @@
        http://www.springframework.org/schema/context 
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<context:property-placeholder location="properties/jdbc.properties"/>
-	<context:property-placeholder location="properties/redis.properties"/>
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>properties/jdbc.properties</value>
+				<value>properties/redis.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
@@ -51,5 +57,20 @@
 		  p:annotationClass="org.springframework.stereotype.Repository"/>
 
 
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"
+		  p:maxIdle="${redis.maxIdle}"
+		  p:maxTotal="${redis.maxActive}"
+		  p:maxWaitMillis="${redis.maxWait}"
+		  p:testOnBorrow="${redis.testOnBorrow}"/>
 
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		  p:hostName="${redis.host}"
+		  p:port="${redis.port}"
+		  p:password="${redis.password}"
+		  p:database="${redis.dbIndex}"
+		  p:poolConfig-ref="poolConfig"/>
+
+
+	<bean id="transfer" class="com.netease.cache.RedisCacheTransfer"
+		  p:factory-ref="jedisConnectionFactory"/>
 </beans>

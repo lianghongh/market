@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.netease.dao.InventoryDao">
+    <cache type="com.netease.cache.RedisCache"/>
     <resultMap id="result" type="com.netease.domain.Inventory">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
@@ -12,7 +13,8 @@
         <result property="hasSold" column="has_sold"/>
     </resultMap>
 
-    <select id="getInventoryById" resultMap="result" parameterType="int" resultType="com.netease.domain.Inventory">
+    <select id="getInventoryById" resultMap="result" parameterType="int"
+            resultType="com.netease.domain.Inventory" useCache="true">
         SELECT * FROM t_inventory WHERE id=#{id}
     </select>
 
@@ -32,7 +34,7 @@
     </delete>
 
     <select id="findInventoryByUserId" parameterType="java.lang.String" resultMap="result"
-            resultType="java.util.List">
+            resultType="java.util.List" useCache="true">
         SELECT * FROM t_inventory WHERE user_id=#{user_id}
     </select>
 
