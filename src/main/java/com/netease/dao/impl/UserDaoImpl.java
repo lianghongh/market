@@ -32,20 +32,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserById(String userId) {
-        logger.debug("userId: {}",userId);
+        logger.info("userId: {}",userId);
         return dao.getUserById(userId);
     }
 
     @Override
     public User getUserByNickname(String nickname) {
-        logger.debug("nickname: {}", nickname);
+        logger.info("nickname: {}", nickname);
         return dao.getUserByNickname(nickname);
     }
 
     @Override
     public void insertUser(User u) {
         dao.insertUser(u);
-        logger.debug("{}",u);
+        logger.info("{}",u);
         List<ShoppingInfo> shoppingInfoList = u.getShoppingInfoList();
         List<CartInfo> cartInfoList = u.getCart();
         for(int i=0;i<shoppingInfoList.size();i++)
@@ -57,19 +57,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void updatePassword(String nickname, String new_password) {
         dao.updatePassword(nickname,new_password);
-        logger.debug("nickname: {} new_password: {}",nickname,new_password);
+        logger.info("nickname: {} new_password: {}",nickname,new_password);
     }
 
     @Override
     public void updateNickname(String nickname, String new_name) {
         dao.updateNickname(nickname,new_name);
-        logger.debug("nickname: {} new_nickname: {}",nickname,new_name);
+        logger.info("nickname: {} new_nickname: {}",nickname,new_name);
     }
 
     @Override
     public void updateInfo(User u) {
         dao.updateInfo(u);
-        logger.debug("{}",u);
+        logger.info("{}",u);
         List<ShoppingInfo> shoppingInfoList=u.getShoppingInfoList();
         List<CartInfo> cartInfoList=u.getCart();
         for(int i=0;i<shoppingInfoList.size();i++)
@@ -87,7 +87,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUserByNickname(String nickname) {
         User u = this.getUserByNickname(nickname);
-        logger.debug("nickname: {}",nickname);
+        logger.info("nickname: {}",nickname);
         List<ShoppingInfo> shoppingInfoList = u.getShoppingInfoList();
         List<CartInfo> cartInfoList = u.getCart();
         for(int i=0;i<shoppingInfoList.size();i++)
@@ -100,7 +100,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUserById(String user_id) {
         User u = this.getUserById(user_id);
-        logger.debug("userId: {}",user_id);
+        logger.info("userId: {}",user_id);
         List<ShoppingInfo> shoppingInfoList = u.getShoppingInfoList();
         List<CartInfo> cartInfoList = u.getCart();
         for(int i=0;i<shoppingInfoList.size();i++)

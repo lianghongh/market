@@ -22,25 +22,25 @@ public class CartInfoDaoImpl implements CartInfoDao {
 
     @Override
     public CartInfo getCartInfoById(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         return dao.getCartInfoById(id);
     }
 
     @Override
     public List<CartInfo> findCartInfoByUserId(String user_id) {
-        logger.debug("userId: {}",user_id);
+        logger.info("userId: {}",user_id);
         return dao.findCartInfoByUserId(user_id);
     }
 
     @Override
     public void insertCartInfo(CartInfo info) {
-        logger.debug("{}",info);
+        logger.info("{}",info);
         dao.insertCartInfo(info);
     }
 
     @Override
     public void deleteCartInfo(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         dao.deleteCartInfo(id);
     }
 }

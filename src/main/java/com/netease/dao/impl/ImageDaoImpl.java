@@ -21,31 +21,31 @@ public class ImageDaoImpl implements ImageDao {
 
     @Override
     public Image getImageById(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         return imageDao.getImageById(id);
     }
 
     @Override
     public void deleteImageById(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         imageDao.deleteImageById(id);
     }
 
     @Override
     public void updateImage(Image image) {
-        logger.debug("{}",image);
+        logger.info("{}",image);
         imageDao.updateImage(image);
     }
 
     @Override
     public void insertImage(Image image) {
-        logger.debug("{}",image);
+        logger.info("{}",image);
         imageDao.insertImage(image);
     }
 
     @Override
     public List<Image> findImageByProductId(int product_id) {
-        logger.debug("productId: {}",product_id);
+        logger.info("productId: {}",product_id);
         return imageDao.findImageByProductId(product_id);
     }
 }

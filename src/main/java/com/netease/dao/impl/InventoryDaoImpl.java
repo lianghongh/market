@@ -21,31 +21,31 @@ public class InventoryDaoImpl implements InventoryDao {
 
     @Override
     public Inventory getInventoryById(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         return inventoryDao.getInventoryById(id);
     }
 
     @Override
     public void insertInventory(Inventory inventory) {
-        logger.debug("{}",inventory);
+        logger.info("{}",inventory);
         inventoryDao.insertInventory(inventory);
     }
 
     @Override
     public void updateInventory(Inventory inventory) {
-        logger.debug("{}",inventory);
+        logger.info("{}",inventory);
         inventoryDao.updateInventory(inventory);
     }
 
     @Override
     public void deleteInventory(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         inventoryDao.deleteInventory(id);
     }
 
     @Override
     public List<Inventory> findInventoryByUserId(String user_id) {
-        logger.debug("userId: {}",user_id);
+        logger.info("userId: {}",user_id);
         return inventoryDao.findInventoryByUserId(user_id);
     }
 }

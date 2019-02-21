@@ -27,21 +27,21 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
     @Override
     public Businessman getBusinessmanByUserId(String user_id) {
         Businessman businessman=dao.getBusinessmanByUserId(user_id);
-        logger.debug("{}",businessman);
+        logger.info("{}",businessman);
         return businessman;
     }
 
     @Override
     public Businessman getBusinessmanByNickname(String nickname) {
         Businessman businessman=dao.getBusinessmanByNickname(nickname);
-        logger.debug("{}",businessman);
+        logger.info("{}",businessman);
         return businessman;
     }
 
     @Override
     public void insertBusinessman(Businessman businessman) {
         dao.insertBusinessman(businessman);
-        logger.debug("{}",businessman);
+        logger.info("{}",businessman);
         List<Inventory> list = businessman.getInventoryList();
         for(int i=0;i<list.size();i++)
             inventoryDao.insertInventory(list.get(i));
@@ -50,19 +50,19 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
     @Override
     public void updatePassword(String nickname, String new_password) {
         dao.updatePassword(nickname,new_password);
-        logger.debug("nickname: {} new_password: {}",nickname,new_password);
+        logger.info("nickname: {} new_password: {}",nickname,new_password);
     }
 
     @Override
     public void updateNickname(String nickname, String name) {
         dao.updateNickname(nickname,name);
-        logger.debug("nickname: {} new_name: {}",nickname,name);
+        logger.info("nickname: {} new_name: {}",nickname,name);
     }
 
     @Override
     public void updateInfo(Businessman businessman) {
         dao.updateInfo(businessman);
-        logger.debug("{}",businessman);
+        logger.info("{}",businessman);
         List<Inventory> list = businessman.getInventoryList();
         for(int i=0;i<list.size();i++)
         {
@@ -78,7 +78,7 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
         for(int i=0;i<list.size();i++)
             inventoryDao.deleteInventory(list.get(i).getId());
         dao.deleteByNickname(nickname);
-        logger.debug("nickname: {}",nickname);
+        logger.info("nickname: {}",nickname);
     }
 
     @Override
@@ -88,6 +88,6 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
         for(int i=0;i<list.size();i++)
             inventoryDao.deleteInventory(list.get(i).getId());
         dao.deleteByUserId(user_id);
-        logger.debug("userId: {}",user_id);
+        logger.info("userId: {}",user_id);
     }
 }

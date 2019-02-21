@@ -25,7 +25,7 @@ public class RedisCache implements Cache {
     {
         if (id == null)
             throw new IllegalArgumentException("Cache instances require an ID");
-        logger.debug("RedisCache id={}",id);
+        logger.info("RedisCache id={}",id);
         this.id=id;
     }
 
@@ -41,7 +41,7 @@ public class RedisCache implements Cache {
         try {
             connection = factory.getConnection();
             connection.set(serializer.serialize(o), serializer.serialize(o1));
-            logger.debug("put key: {} value: {}", o, o1);
+            logger.info("put key: {} value: {}", o, o1);
         } catch (JedisConnectionException e) {
             e.printStackTrace();
         } finally {
@@ -63,7 +63,7 @@ public class RedisCache implements Cache {
                 removeObject(o);
                 return null;
             }
-            logger.debug("{} getObject: {}",id,o);
+            logger.info("{} getObject: {}",id,o);
         } catch (JedisConnectionException e) {
             e.printStackTrace();
         } finally {
@@ -81,7 +81,7 @@ public class RedisCache implements Cache {
         try {
             connection = factory.getConnection();
             result = connection.expire(serializer.serialize(o), 0);
-            logger.debug("id: {} remove key: {}", id, o);
+            logger.info("id: {} remove key: {}", id, o);
         } catch (JedisConnectionException e) {
             e.printStackTrace();
         } finally {
@@ -99,7 +99,7 @@ public class RedisCache implements Cache {
             connection=factory.getConnection();
             connection.flushDb();
             connection.flushAll();
-            logger.debug("Redis FlushAll");
+            logger.info("Redis FlushAll");
         }catch (JedisConnectionException e){
             e.printStackTrace();
         }finally {
@@ -115,7 +115,7 @@ public class RedisCache implements Cache {
         try {
             connection = factory.getConnection();
             result = Integer.valueOf(connection.dbSize().toString());
-            logger.debug("{} size: {}",id,result);
+            logger.info("{} size: {}",id,result);
         } catch (JedisConnectionException e) {
             e.printStackTrace();
         } finally {

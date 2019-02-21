@@ -27,20 +27,20 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product getProductById(int id) {
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         return productDao.getProductById(id);
     }
 
     @Override
     public Product getProductByName(String name) {
-        logger.debug("name: {}",name);
+        logger.info("name: {}",name);
         return productDao.getProductByName(name);
     }
 
     @Override
     public void insertProduct(Product product) {
         productDao.insertProduct(product);
-        logger.debug("{}",product);
+        logger.info("{}",product);
         List<Image> imageList = product.getImages();
         for(int i=0;i<imageList.size();i++)
             imageDaoImpl.insertImage(imageList.get(i));
@@ -49,7 +49,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void deleteProductById(int id) {
         Product product = this.getProductById(id);
-        logger.debug("id: {}",id);
+        logger.info("id: {}",id);
         List<Image> images = product.getImages();
         for(int i=0;i<images.size();i++)
             imageDaoImpl.deleteImageById(images.get(i).getId());
@@ -59,7 +59,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void deleteProductByName(String name) {
         Product product = this.getProductByName(name);
-        logger.debug("name: ",name);
+        logger.info("name: ",name);
         List<Image> images = product.getImages();
         for(int i=0;i<images.size();i++)
             imageDaoImpl.deleteImageById(images.get(i).getId());
@@ -69,7 +69,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void updateProduct(Product product) {
         productDao.updateProduct(product);
-        logger.debug("{}",product);
+        logger.info("{}",product);
         List<Image> images=product.getImages();
         for(int i=0;i<images.size();i++)
         {
