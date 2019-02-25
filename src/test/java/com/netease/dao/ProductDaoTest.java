@@ -8,6 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,9 @@ public class ProductDaoTest extends BaseDaoTest {
     @Autowired
     @Qualifier("imageDaoImpl")
     private ImageDaoImpl imageDao;
+
+    @Autowired
+    private JedisConnectionFactory factory;
 
 
     @Test
@@ -101,6 +108,26 @@ public class ProductDaoTest extends BaseDaoTest {
         productDao.updateProduct(p);
         Product q = productDao.getProductById(23);
         System.out.println(q);
+    }
+
+    @Test
+    public void testAllProducts()
+    {
+        List<Product> list=productDao.getAllProducts();
+        for(Product p:list)
+            System.out.println(p);
+    }
+
+    @Test
+    public void testSerial()
+    {
+        JedisConnection connection = factory.getConnection();
+        Product p = productDao.getProductById(23);
+        System.out.println("序列化前："+p);
+        RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer();
+        connection.set(serializer.serialize(p.getProductName()),serializer.serialize(p));
+        Object o = serializer.deserialize(connection.get(serializer.serialize(p.getProductName())));
+        System.out.println("序列化后："+o);
     }
 
 }

@@ -20,8 +20,8 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>properties/jdbc.properties</value>
-				<value>properties/redis.properties</value>
+				<value>classpath:properties/jdbc.properties</value>
+				<value>classpath:properties/redis.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -30,6 +30,10 @@
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<mvc:annotation-driven/>
 	<context:component-scan base-package="com.netease"/>
+
+	<mvc:resources mapping="/js/**" location="/js/"/>
+	<mvc:resources mapping="/images/**" location="/images/"/>
+	<mvc:resources mapping="/css/**" location="/css/"/>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
 		  p:username="${username}"
@@ -48,7 +52,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
 		  p:dataSource-ref="dataSource"
-		  p:configLocation="mybatis-config.xml"/>
+		  p:configLocation="classpath:mybatis-config.xml"/>
 
 
 	<bean id="scanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer"
@@ -73,4 +77,8 @@
 
 	<bean id="transfer" class="com.netease.cache.RedisCacheTransfer"
 		  p:factory-ref="jedisConnectionFactory"/>
+
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"
+		  p:templateLoaderPath="/views/"/>
+
 </beans>

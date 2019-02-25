@@ -78,4 +78,9 @@ public class ProductDaoImpl implements ProductDao {
         }
     }
 
+    @Override
+    public List<Product> getAllProducts() {
+        return productDao.getAllProducts();
+    }
+
 }

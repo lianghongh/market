@@ -3,6 +3,8 @@ package com.netease.dao;
 import com.netease.domain.Product;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("productDao")
 public interface ProductDao {
 
@@ -17,5 +19,7 @@ public interface ProductDao {
     public void deleteProductByName(String name);
 
     public void updateProduct(Product product);
+
+    public List<Product> getAllProducts();
 
 }

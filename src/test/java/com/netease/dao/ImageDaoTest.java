@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.List;
+
 public class ImageDaoTest extends BaseDaoTest {
 
     @Autowired
@@ -54,5 +56,12 @@ public class ImageDaoTest extends BaseDaoTest {
         Assert.assertEquals(image.getName(),p.getName());
         Assert.assertEquals(image.getProductId(),p.getProductId());
         Assert.assertEquals(image.getUrl(),p.getUrl());
+    }
+
+    @Test
+    public void testList()
+    {
+        List<Image> list = imageDao.findImageByProductId(23);
+        System.out.println(list);
     }
 }
