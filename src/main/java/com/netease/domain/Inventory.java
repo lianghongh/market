@@ -7,6 +7,7 @@ public class Inventory implements Serializable {
     private int id;
     private String userId;
     private int productId;
+    private String productName;
     private int count;
     private int hasSold;
 
@@ -50,12 +51,21 @@ public class Inventory implements Serializable {
         this.hasSold = hasSold;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("[Inventory id="+id);
         builder.append(", userId=" + userId);
         builder.append(", productId=" + productId);
+        builder.append(", productName=" + productName);
         builder.append(", count=" + count);
         builder.append(", hasSold=" + hasSold+"]");
         return builder.toString();

@@ -28,6 +28,7 @@ public class CartInfoDaoTest extends BaseDaoTest {
     {
         CartInfo info=new CartInfo();
         info.setProductId(23);
+        info.setProductName("qqq");
         info.setCartCount(100);
         info.setUserId("aaaaaa");
         info.setCartPrice(1000);

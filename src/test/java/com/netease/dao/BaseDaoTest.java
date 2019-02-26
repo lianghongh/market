@@ -15,7 +15,4 @@ public class BaseDaoTest {
 
     protected static final double DELTA=0.001;
 
-
-
-
 }

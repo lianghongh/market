@@ -8,6 +8,7 @@ public class ShoppingInfo implements Serializable{
     private int id;
     private String userId;
     private int productId;
+    private String productName;
     private int shoppingCount;
     private double shoppingPrice;
     private Timestamp shoppingTime;
@@ -60,12 +61,21 @@ public class ShoppingInfo implements Serializable{
         this.shoppingTime = shoppingTime;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder=new StringBuilder();
         builder.append("[ShoppingInfo id=" + id);
         builder.append(", userId=" + userId);
         builder.append(", productId=" + productId);
+        builder.append(", productName=" + productName);
         builder.append(", shoppingCount=" + shoppingCount);
         builder.append(", shoppingPrice=" + shoppingPrice);
         builder.append(", shoppingTime=" + shoppingTime + "]");

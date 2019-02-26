@@ -33,7 +33,7 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testGetUserById()
     {
-        User u = dao.getUserById("xxxxxx");
+        User u = dao.getUserById("ec880b01599c36fe9f9bc56b06ba53bd");
         Assert.assertNotNull(u);
         System.out.println(u);
     }
@@ -146,9 +146,9 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testDeleteUserById()
     {
-        User u = dao.getUserById("xxxxxx");
-        dao.deleteUserById("xxxxxx");
-        Assert.assertNull(dao.getUserById("xxxxxx"));
+        User u = dao.getUserById("ec880b01599c36fe9f9bc56b06ba53bd");
+        dao.deleteUserById("ec880b01599c36fe9f9bc56b06ba53bd");
+        Assert.assertNull(dao.getUserById("ec880b01599c36fe9f9bc56b06ba53bd"));
         List<ShoppingInfo> shoppingInfoList=u.getShoppingInfoList();
         List<CartInfo> cartInfoList = u.getCart();
         for(ShoppingInfo info:shoppingInfoList)

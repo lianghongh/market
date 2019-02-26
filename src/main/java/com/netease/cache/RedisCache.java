@@ -59,10 +59,6 @@ public class RedisCache implements Cache {
         try {
             connection = factory.getConnection();
             result = serializer.deserialize(connection.get(serializer.serialize(o)));
-            if (result == null) {
-                removeObject(o);
-                return null;
-            }
             logger.info("{} getObject: {}",id,o);
         } catch (JedisConnectionException e) {
             e.printStackTrace();

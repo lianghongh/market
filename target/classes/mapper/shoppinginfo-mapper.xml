@@ -10,6 +10,7 @@
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
         <result property="shoppingCount" column="shopping_count"/>
         <result property="shoppingPrice" column="shopping_price"/>
         <result property="shoppingTime" column="shopping_time"/>
@@ -23,8 +24,8 @@
 
     <insert id="insertShoppingInfo" parameterType="com.netease.domain.ShoppingInfo" keyProperty="id"
             useGeneratedKeys="true">
-        INSERT INTO t_shopping_info (user_id,product_id,shopping_count,shopping_price,shopping_time)
-        VALUES (#{userId},#{productId},#{shoppingCount},#{shoppingPrice},#{shoppingTime})
+        INSERT INTO t_shopping_info (user_id,product_id,product_name,shopping_count,shopping_price,shopping_time)
+        VALUES (#{userId},#{productId},#{productName},#{shoppingCount},#{shoppingPrice},#{shoppingTime})
     </insert>
 
 

@@ -10,6 +10,7 @@
     <resultMap id="r" type="com.netease.domain.Image">
         <id property="id" column="id"/>
         <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
         <result property="name" column="name"/>
         <result property="url" column="url"/>
     </resultMap>
@@ -23,7 +24,7 @@
     </insert>
 
     <update id="updateImage" parameterType="com.netease.domain.Image">
-        UPDATE t_image SET product_id=#{productId},name=#{name},url=#{url}
+        UPDATE t_image SET product_id=#{productId},product_name=#{productName},name=#{name},url=#{url}
         WHERE id=#{id}
     </update>
 

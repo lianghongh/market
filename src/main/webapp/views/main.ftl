@@ -9,14 +9,16 @@
 <div class="n-support">请使用Chrome、Safari等webkit内核的浏览器！</div>
 <div class="n-head">
     <div class="g-doc f-cb">
-    <#if user?? && Session[user.name]??>
-        <#if user.role=="user">
+    <#if Session?? && Session["user"]??>
+        <#if Session["user"].role=="user">
             <div class="user">
-                <a href="/user/show">欢迎用户！${Session[user.name].name}</a>
+                <a href="/user/profile">欢迎用户！${Session["user"].name}</a>
+                <a href="/api/logout">[退出]</a>
             </div>
-        <#elseif user.role=="businessman">
+        <#elseif Session["user"].role=="businessman">
             <div class="user">
-                <a href="/businessman/show">欢迎商家！${Session[user.name].name}</a>
+                <a href="/businessman/profile">欢迎商家！${Session["user"].name}</a>
+                <a href="/api/logout">[退出]</a>
             </div>
         </#if>
     <#else>
@@ -29,6 +31,10 @@
     </#if>
         <ul class="nav">
             <li><a href="/">首页</a></li>
+            <#if Session?? && Session["user"]?? && Session["user"].role=="user">
+                <li><a href="/user/bill">账单</a></li>
+                <li><a href="/user/cart">购物车</a></li>
+            </#if>
         </ul>
     </div>
 </div>
@@ -36,7 +42,10 @@
     <div class="m-tab m-tab-fw m-tab-simple f-cb">
         <div class="tab">
             <ul>
-                <li class="z-sel" ><a href="/">所有内容</a></li>
+                <li><a href="/">所有内容</a></li>
+                <#if Session?? && Session["user"]??>
+                    <li><a href="/notbuy">未购买的内容</a></li>
+                </#if>
             </ul>
         </div>
     </div>

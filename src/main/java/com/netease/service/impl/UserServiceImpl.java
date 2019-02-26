@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("userServiceImpl")
-@Transactional(rollbackFor = {Exception.class})
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -44,34 +43,15 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserById(userId);
     }
 
-
+    @Transactional
     @Override
-    public List<Product> getShoppingProducts(String name) {
-        User u = userDao.getUserByNickname(name);
-        List<ShoppingInfo> shoppingInfoList = u.getShoppingInfoList();
-        List<Product> result = new ArrayList<>();
-        for(ShoppingInfo info:shoppingInfoList)
-            result.add(productDao.getProductById(info.getProductId()));
-        return result;
-    }
-
-    @Override
-    public List<Product> getCartProducts(String name) {
-        User u = userDao.getUserByNickname(name);
-        List<CartInfo> cartInfoList = u.getCart();
-        List<Product> result = new ArrayList<>();
-        for(CartInfo info:cartInfoList)
-            result.add(productDao.getProductById(info.getProductId()));
-        return result;
-    }
-
-    @Override
-    public void addToCart(String name,String productName,int count) {
+    public void addToCart(String name,int productId,int count) {
         User user = userDao.getUserByNickname(name);
         CartInfo info=new CartInfo();
-        Product product = productDao.getProductByName(productName);
+        Product product = productDao.getProductById(productId);
         info.setUserId(user.getUserId());
         info.setProductId(product.getProductId());
+        info.setProductName(product.getProductName());
         info.setCartCount(count);
         info.setCartTime(Timestamp.valueOf(LocalDateTime.now()));
         info.setCartPrice(product.getProductPrice());
@@ -80,29 +60,20 @@ public class UserServiceImpl implements UserService {
         userDao.updateInfo(user);
     }
 
+    @Transactional
     @Override
-    public Product removeFromCart(String name,String productName,int count) {
+    public void removeFromCart(String name,int productId) {
         User user = userDao.getUserByNickname(name);
-        Product product = productDao.getProductByName(productName);
         List<CartInfo> result = new ArrayList<>();
         for(CartInfo info:user.getCart()) {
-            if(info.getProductId()==product.getProductId())
-            {
-                if(info.getCartCount()>count)
-                {
-                    info.setCartCount(info.getCartCount()-count);
-                    result.add(info);
-                    logger.info("删除商品{} 数量：{}",productName,count);
-                }
-            }
-            else
+            if(info.getProductId()!=productId)
                 result.add(info);
         }
         user.setCart(result);
         userDao.updateInfo(user);
-        return product;
     }
 
+    @Transactional
     @Override
     public boolean purchase(String name) {
         User u = userDao.getUserByNickname(name);
@@ -122,17 +93,20 @@ public class UserServiceImpl implements UserService {
             ShoppingInfo shoppingInfo = new ShoppingInfo();
             shoppingInfo.setUserId(u.getUserId());
             shoppingInfo.setProductId(info.getProductId());
+            shoppingInfo.setProductName(info.getProductName());
             shoppingInfo.setShoppingCount(info.getCartCount());
             shoppingInfo.setShoppingPrice(productDao.getProductById(info.getProductId()).getProductPrice());
             shoppingInfo.setShoppingTime(Timestamp.valueOf(LocalDateTime.now()));
             u.getShoppingInfoList().add(shoppingInfo);
         }
         u.setCart(new ArrayList<>());
+        u.setBalance(u.getBalance()-total);
         userDao.updateInfo(u);
         logger.info("用户{}：购买成功！",name);
         return true;
     }
 
+    @Transactional
     @Override
     public boolean updatePassword(String nickname, String new_password) {
         userDao.updatePassword(nickname,new_password);
@@ -146,6 +120,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Transactional
     @Override
     public boolean updateNickname(String nickname, String new_name) {
         userDao.updateNickname(nickname,new_name);

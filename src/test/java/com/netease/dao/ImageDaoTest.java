@@ -31,6 +31,7 @@ public class ImageDaoTest extends BaseDaoTest {
         Image image=new Image();
         image.setName("lianghong");
         image.setProductId(123134);
+        image.setProductName("asdasfdf");
         image.setUrl("xxxx");
         imageDao.insertImage(image);
     }
@@ -48,6 +49,7 @@ public class ImageDaoTest extends BaseDaoTest {
         Image image=new Image();
         image.setId(10);
         image.setName("qqq");
+        image.setProductName("asdasfa");
         image.setUrl("aaaaaa");
         image.setProductId(564253);
         imageDao.updateImage(image);

@@ -9,6 +9,7 @@
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
         <result property="cartCount" column="cart_count"/>
         <result property="cartPrice" column="cart_price"/>
         <result property="cartTime" column="cart_time"/>
@@ -26,8 +27,8 @@
 
     <insert id="insertCartInfo" parameterType="com.netease.domain.CartInfo"
             keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO t_cart_info (user_id,product_id,cart_count,cart_price,cart_time)
-        VALUES (#{userId},#{productId},#{cartCount},#{cartPrice},#{cartTime})
+        INSERT INTO t_cart_info (user_id,product_id,product_name,cart_count,cart_price,cart_time)
+        VALUES (#{userId},#{productId},#{productName},#{cartCount},#{cartPrice},#{cartTime})
     </insert>
 
     <delete id="deleteCartInfo" parameterType="int">

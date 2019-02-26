@@ -9,6 +9,7 @@
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
         <result property="count" column="count"/>
         <result property="hasSold" column="has_sold"/>
     </resultMap>
@@ -20,12 +21,12 @@
 
     <insert id="insertInventory" parameterType="com.netease.domain.Inventory"
             keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO t_inventory(user_id,product_id,count,has_sold)
-        VALUES (#{userId},#{productId},#{count},#{hasSold})
+        INSERT INTO t_inventory(user_id,product_id,product_name,count,has_sold)
+        VALUES (#{userId},#{productId},#{productName},#{count},#{hasSold})
     </insert>
 
     <update id="updateInventory" parameterType="com.netease.domain.Inventory">
-        UPDATE t_inventory SET user_id=#{userId},product_id=#{productId},count=#{count},
+        UPDATE t_inventory SET user_id=#{userId},product_id=#{productId},product_name=#{productName},count=#{count},
         has_sold=#{hasSold} WHERE id=#{id}
     </update>
 

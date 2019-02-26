@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,6 +51,7 @@ public class LoginController {
     }
 
 
+    @Transactional
     @RequestMapping("/api/login")
     public String login(String username, String password, String role, HttpServletRequest request, ModelMap modelMap) throws UnsupportedEncodingException
     {
@@ -71,12 +73,12 @@ public class LoginController {
                 logger.error("用户{}的密码错误！",username);
                 return "login_error.ftl";
             }
-            if(session.getAttribute(username)!=null)
+            if(session.getAttribute("user")!=null)
             {
                 logger.error("用户{}已经登录！",username);
                 return "redirect:/";
             }
-            session.setAttribute(username,user);
+            session.setAttribute("user",user);
             u.setLoginTime(Timestamp.valueOf(LocalDateTime.now()));
             userDao.updateInfo(u);
             return "redirect:/";
@@ -94,12 +96,12 @@ public class LoginController {
                 logger.error("商家{}的密码错误！",username);
                 return "login_error.ftl";
             }
-            if(session.getAttribute(username)!=null)
+            if(session.getAttribute("user")!=null)
             {
                 logger.error("商家{}已经登录！",username);
                 return "redirect:/";
             }
-            session.setAttribute(username,user);
+            session.setAttribute("user",user);
             businessman.setLoginTime(Timestamp.valueOf(LocalDateTime.now()));
             businessmanDao.updateInfo(businessman);
             return "redirect:/";
@@ -111,6 +113,7 @@ public class LoginController {
         }
     }
 
+    @Transactional
     @RequestMapping("/api/register")
     public String register(String username,String password,String role,HttpServletRequest request,ModelMap modelMap) throws UnsupportedEncodingException
     {
@@ -127,7 +130,7 @@ public class LoginController {
                 logger.error("用户{}已经存在！注册失败",username);
                 return "register_error.ftl";
             }
-            session.setAttribute(username,user);
+            session.setAttribute("user",user);
             u = new User();
             u.setNickname(username);
             u.setUserId(UUID.nameUUIDFromBytes(username.getBytes()).toString().replace("-",""));
@@ -148,7 +151,7 @@ public class LoginController {
                 logger.error("商家{}已经存在！注册失败",username);
                 return "register_error.ftl";
             }
-            session.setAttribute(username,user);
+            session.setAttribute("user",user);
             businessman = new Businessman();
             businessman.setNickname(username);
             businessman.setUserId(UUID.nameUUIDFromBytes(username.getBytes()).toString().replace("-",""));
@@ -167,16 +170,18 @@ public class LoginController {
         }
     }
 
+    @Transactional
     @RequestMapping("/api/logout")
-    public String logout(String username,HttpServletRequest request,ModelMap modelMap)
+    public String logout(HttpServletRequest request, ModelMap modelMap)
     {
         HttpSession session = request.getSession();
-        if(session.getAttribute(username)==null)
+        if(session.getAttribute("user")==null)
         {
-            logger.error("用户{}没有登录！");
+            logger.error("用户没有登录！");
             return "redirect:/";
         }
-        session.removeAttribute(username);
+        String username = ((Map<String, String>) session.getAttribute("user")).get("name");
+        session.removeAttribute("user");
         modelMap.remove("user");
         User u = userDao.getUserByNickname(username);
         Businessman businessman = businessmanDao.getBusinessmanByNickname(username);
@@ -193,22 +198,23 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @Transactional
     @RequestMapping("/api/unregister")
-    public String unregister(String username,HttpServletRequest request,ModelMap modelMap)
+    public String unregister(HttpSession session,ModelMap modelMap)
     {
-        HttpSession session = request.getSession();
-        if(session.getAttribute(username)==null)
+        if(session==null || session.getAttribute("user")==null)
         {
-            logger.error("用户{}没有登录！");
+            logger.error("您没有登录！");
             return "redirect:/";
         }
-        session.removeAttribute(username);
-        modelMap.remove("user");
-        User u = userDao.getUserByNickname(username);
-        if(u!=null)
-            userDao.deleteUserByNickname(username);
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if("user".equals(user.get("role")))
+            userDao.deleteUserByNickname(user.get("name"));
         else
-            businessmanDao.deleteByNickname(username);
+            businessmanDao.deleteByNickname(user.get("name"));
+
+        session.removeAttribute("user");
+        modelMap.remove("user");
         return "redirect:/";
     }
 }

@@ -1,9 +1,6 @@
 package com.netease.service;
 
-import com.netease.domain.Product;
 import com.netease.domain.User;
-
-import java.util.List;
 
 public interface UserService {
 
@@ -11,13 +8,9 @@ public interface UserService {
 
     public User getUserById(String userId);
 
-    public List<Product> getShoppingProducts(String name);
+    public void addToCart(String name,int productId,int count);
 
-    public List<Product> getCartProducts(String name);
-
-    public void addToCart(String name,String productName,int count);
-
-    public Product removeFromCart(String name,String productName,int count);
+    public void removeFromCart(String name,int productId);
 
     public boolean purchase(String name);
 
