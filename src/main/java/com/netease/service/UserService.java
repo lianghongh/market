@@ -2,6 +2,8 @@ package com.netease.service;
 
 import com.netease.domain.User;
 
+import java.util.List;
+
 public interface UserService {
 
     public User getUserByName(String name);
@@ -18,5 +20,6 @@ public interface UserService {
 
     public boolean updateNickname(String nickname, String new_name);
 
+    public List<User> getAllUsers();
 
 }

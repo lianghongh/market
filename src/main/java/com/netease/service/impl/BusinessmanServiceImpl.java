@@ -90,14 +90,14 @@ public class BusinessmanServiceImpl implements BusinessmanService {
     }
 
     @Override
-    public void updateInventory(String name, String productName, Inventory inventory) {
+    public void updateInventory(String name, int productId, Inventory inventory) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
-        Product p = productDao.getProductByName(productName);
         for(Inventory i:businessman.getInventoryList())
         {
-            if(i.getProductId()==p.getProductId())
+            if(i.getProductId()==productId)
             {
                 i.setProductId(inventory.getProductId());
+                i.setProductName(inventory.getProductName());
                 i.setCount(inventory.getCount());
                 i.setHasSold(inventory.getHasSold());
                 break;

@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void removeFromCart(String name,int productId) {
+    public void removeFromCart(String name,int id) {
         User user = userDao.getUserByNickname(name);
         List<CartInfo> result = new ArrayList<>();
         for(CartInfo info:user.getCart()) {
-            if(info.getProductId()!=productId)
+            if(info.getId()!=id)
                 result.add(info);
         }
         user.setCart(result);
@@ -132,4 +132,10 @@ public class UserServiceImpl implements UserService {
         logger.error("用户{}：更新用户名失败！",nickname);
         return false;
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAllUsers();
+    }
+
 }

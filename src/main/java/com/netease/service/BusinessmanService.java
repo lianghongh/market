@@ -18,7 +18,7 @@ public interface BusinessmanService {
 
     public Product removeFromInventory(String name,String productName,int count);
 
-    public void updateInventory(String name, String productName,Inventory inventory);
+    public void updateInventory(String name, int productId,Inventory inventory);
 
     public boolean updatePassword(String name, String new_password);
 

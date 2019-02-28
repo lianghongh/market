@@ -20,7 +20,7 @@
     </select>
 
     <insert id="insertImage" parameterType="com.netease.domain.Image" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO t_image(product_id,name,url) VALUES (#{productId},#{name},#{url})
+        INSERT INTO t_image(product_id,product_name,name,url) VALUES (#{productId},#{productName},#{name},#{url})
     </insert>
 
     <update id="updateImage" parameterType="com.netease.domain.Image">

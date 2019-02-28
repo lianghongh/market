@@ -4,6 +4,8 @@ import com.netease.domain.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("userDao")
 public interface UserDao {
 
@@ -23,5 +25,6 @@ public interface UserDao {
 
     public void deleteUserById(String user_id);
 
+    public List<User> getAllUsers();
 
 }

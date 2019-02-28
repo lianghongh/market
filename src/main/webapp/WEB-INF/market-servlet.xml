@@ -13,5 +13,11 @@
 	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
 		  p:contentType="text/html;charset=utf-8"/>
 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		  p:defaultEncoding="UTF-8"
+		  p:maxUploadSize="1000000"
+		  p:uploadTempDir="temp"/>
+
+
 
 </beans>

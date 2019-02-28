@@ -63,7 +63,7 @@
                     <td><span class="v-num">${cart.cartCount}</span></td>
                     <td><span class="v-unit">¥</span><span class="value">${cart.cartPrice}</span></td>
                     <td><span class="v-time">${cart.cartTime}</span></td>
-                    <td><button class="u-btn u-btn-primary" id="delete-${cart.productId}" onclick="del(${cart.productId})">删除</button></td>
+                    <td><button class="u-btn u-btn-primary" id="delete-${cart.id}" onclick="del(${cart.id})">删除</button></td>
                 </tr>
                 <#assign totalPrice=totalPrice+cart.cartPrice*cart.cartCount>
             </#list>
@@ -73,7 +73,7 @@
             <td colspan="4">
                 <div class="total">总计：</div>
             </td>
-            <td><span class="v-unit">¥</span><span class="value">${totalPrice}</span></td>
+            <td><span class="v-unit">¥</span><span class="v-value">${totalPrice}</span></td>
         </tr>
         </tfoot>
     </table>
@@ -96,7 +96,7 @@
     }
 
     function del(id) {
-        if(confirm("您确定从购物车中删除商品"+id+"?"))
+        if(confirm("您确定从购物车中删除该商品?"))
             window.location.href="/user/removecart/"+id;
     }
 </script>

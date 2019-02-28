@@ -271,3 +271,31 @@ function check() {
     document.getElementById("password").value=hex_md5(password);
     return true;
 }
+
+function sub() {
+    var username=document.getElementById("username").value;
+    var password=document.getElementById("password").value;
+    var new_password=document.getElementById("new_password").value;
+    if(username==null||username=="")
+    {
+        alert("新用户名不能为空！");
+        return false;
+    }
+    if(password==null||password=="")
+    {
+        alert("新密码不能为空！");
+        return false;
+    }
+    if(new_password==null||new_password=="")
+    {
+        alert("请再次输入新密码！");
+        return false;
+    }
+    if(password!=new_password)
+    {
+        alert("您两次输入的密码不相同，请修改密码！");
+        return false;
+    }
+    document.getElementById("password").value=hex_md5(password);
+    return true;
+}

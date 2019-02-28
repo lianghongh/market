@@ -123,7 +123,7 @@ public class UserController {
             return "redirect:/";
         }
         userService.purchase(user.get("name"));
-        return "redirect:/";
+        return "redirect:/user/cart";
     }
 
     @RequestMapping("/addcart/{id}")
@@ -145,7 +145,7 @@ public class UserController {
     }
 
     @RequestMapping("/removecart/{id}")
-    public String removeFromCart(@PathVariable("id") int productId,HttpSession session)
+    public String removeFromCart(@PathVariable("id") int id,HttpSession session)
     {
         if(session==null||session.getAttribute("user")==null)
         {
@@ -158,7 +158,7 @@ public class UserController {
             logger.error("您没有权限进行该操作！");
             return "redirect:/";
         }
-        userService.removeFromCart(user.get("name"),productId);
+        userService.removeFromCart(user.get("name"),id);
         return "redirect:/user/cart";
     }
 }

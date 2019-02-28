@@ -71,7 +71,7 @@
             <td colspan="4">
                 <div class="total">总计：</div>
             </td>
-            <td><span class="v-unit">¥</span><span class="value">${total}</span></td>
+            <td><span class="v-unit">¥</span><span class="v-value">${total}</span></td>
         </tr>
         </tfoot>
     </table>

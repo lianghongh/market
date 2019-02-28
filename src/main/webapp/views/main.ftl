@@ -31,9 +31,13 @@
     </#if>
         <ul class="nav">
             <li><a href="/">首页</a></li>
-            <#if Session?? && Session["user"]?? && Session["user"].role=="user">
-                <li><a href="/user/bill">账单</a></li>
-                <li><a href="/user/cart">购物车</a></li>
+            <#if Session?? && Session["user"]??>
+                <#if Session["user"].role=="user">
+                    <li><a href="/user/bill">账单</a></li>
+                    <li><a href="/user/cart">购物车</a></li>
+                <#elseif Session["user"].role=="businessman">
+                    <li><a href="/businessman/publish">发布</a></li>
+                </#if>
             </#if>
         </ul>
     </div>
@@ -43,7 +47,7 @@
         <div class="tab">
             <ul>
                 <li><a href="/">所有内容</a></li>
-                <#if Session?? && Session["user"]??>
+                <#if Session?? && Session["user"]?? && Session["user"].role=="user">
                     <li><a href="/notbuy">未购买的内容</a></li>
                 </#if>
             </ul>
@@ -62,6 +66,12 @@
                             <span class="v-unit">￥</span>
                             <span class="v-value">${p.productPrice}</span>
                         </div>
+                        <#if Session?? && Session["user"]?? && Session["user"].role=="user" && isbuy?? && isbuy[p.productId?c]??>
+                            <span class="had"><b>已购买</b></span>
+                        </#if>
+                        <#if Session?? && Session["user"]?? && Session["user"].role=="businessman" && issold?? && issold[p.productId?c]??>
+                            <span class="had"><b>已售出</b></span>
+                        </#if>
                     </a>
                 </li>
             </#list>

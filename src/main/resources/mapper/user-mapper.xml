@@ -59,4 +59,8 @@
         DELETE FROM t_user WHERE user_id=#{user_id}
     </delete>
 
+    <select id="getAllUsers" resultMap="result" resultType="java.util.List" useCache="true">
+        SELECT * FROM t_user
+    </select>
+
 </mapper>

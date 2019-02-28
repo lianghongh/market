@@ -67,4 +67,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Image> findImages(int productId) {
         return imageDao.findImageByProductId(productId);
     }
+
+    @Override
+    public void updateInfo(Product p) {
+        productDao.updateProduct(p);
+    }
 }

@@ -15,4 +15,6 @@ public interface ProductService {
 
     public List<Image> findImages(int productId);
 
+    public void updateInfo(Product p);
+
 }

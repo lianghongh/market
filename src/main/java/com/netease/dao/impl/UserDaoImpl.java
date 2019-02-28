@@ -97,4 +97,9 @@ public class UserDaoImpl implements UserDao {
             cartInfoDao.deleteCartInfo(cartInfoList.get(i).getId());
         dao.deleteUserById(user_id);
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return dao.getAllUsers();
+    }
 }

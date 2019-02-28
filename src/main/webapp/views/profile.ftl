@@ -45,6 +45,8 @@
             <div class="oprt f-cb">
                 <button class="u-btn u-btn-primary" id="unregister" onclick="unregister()">
                     注销用户</button>
+                <a href="/changeprofile"><button class="u-btn u-btn-primary" id="profile">
+                    修改个人信息</button></a>
             </div>
         </div>
     </div>
@@ -54,6 +56,7 @@
         if(confirm("注销后您的所有个人信息都将被清空且无法恢复，是否继续？"))
             window.location.href="/api/unregister";
     }
+
 </script>
 
 </body>

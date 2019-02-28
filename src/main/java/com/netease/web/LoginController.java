@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -180,21 +181,24 @@ public class LoginController {
             logger.error("用户没有登录！");
             return "redirect:/";
         }
-        String username = ((Map<String, String>) session.getAttribute("user")).get("name");
-        session.removeAttribute("user");
+        Map<String,String> user = (Map<String, String>) session.getAttribute("user");
+        session.invalidate();
         modelMap.remove("user");
-        User u = userDao.getUserByNickname(username);
-        Businessman businessman = businessmanDao.getBusinessmanByNickname(username);
-        if(u!=null)
+        if("user".equals(user.get("role")))
         {
+            User u = userDao.getUserByNickname(user.get("name"));
             u.setLogoutTime(Timestamp.valueOf(LocalDateTime.now()));
             userDao.updateInfo(u);
         }
-        else
+        else if("businessman".equals(user.get("role")))
         {
+            Businessman businessman = businessmanDao.getBusinessmanByNickname(user.get("name"));
             businessman.setLogoutTime(Timestamp.valueOf(LocalDateTime.now()));
             businessmanDao.updateInfo(businessman);
         }
+        else
+            logger.error("无法识别的角色{}",user.get("role"));
+
         return "redirect:/";
     }
 
@@ -210,11 +214,51 @@ public class LoginController {
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
         if("user".equals(user.get("role")))
             userDao.deleteUserByNickname(user.get("name"));
-        else
+        else if("businessman".equals(user.get("role")))
             businessmanDao.deleteByNickname(user.get("name"));
-
-        session.removeAttribute("user");
+        else
+            logger.error("无法识别的角色{}", user.get("role"));
+        session.invalidate();
         modelMap.remove("user");
         return "redirect:/";
+    }
+
+    @Transactional
+    @RequestMapping("/api/changeprofile")
+    public String changeProfile(HttpSession session, ModelMap modelMap, @RequestParam("username") String new_name, @RequestParam("password") String new_password)
+    {
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您还没有登录！");
+            return "redirect:/";
+        }
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if("user".equals(user.get("role")))
+        {
+            userDao.updateNickname(user.get("name"),new_name);
+            userDao.updatePassword(new_name,new_password);
+            session.invalidate();
+            modelMap.remove("user");
+            return "redirect:/login";
+        }
+        else if("businessman".equals(user.get("role")))
+        {
+            businessmanDao.updateNickname(user.get("name"),new_name);
+            businessmanDao.updatePassword(new_name,new_password);
+            session.invalidate();
+            modelMap.remove("user");
+            return "redirect:/login";
+        }
+        else
+        {
+            logger.error("无法识别的角色{}",user.get("role"));
+            return "redirect:/";
+        }
+    }
+
+    @RequestMapping("/changeprofile")
+    public String change()
+    {
+        return "changeprofile.ftl";
     }
 }
