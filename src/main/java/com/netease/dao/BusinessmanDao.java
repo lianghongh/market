@@ -4,6 +4,8 @@ import com.netease.domain.Businessman;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("businessmanDao")
 public interface BusinessmanDao {
 
@@ -23,6 +25,6 @@ public interface BusinessmanDao {
 
     public void deleteByUserId(String user_id);
 
-
+    public List<Businessman> getAllBusinessmans();
 
 }

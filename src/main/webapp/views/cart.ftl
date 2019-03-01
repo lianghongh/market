@@ -58,18 +58,18 @@
             <#assign totalPrice=0>
             <#list cartInfo as cart>
                 <tr>
-                    <td><a href="/show/${bill.productId?c}">
-                        <#if image_map[bill.productName]??>
-                            <img src="${image_map[bill.productName]}" alt="">
+                    <td><a href="/show/${cart.productId?c}">
+                        <#if image_map[cart.productName]??>
+                            <img src="${image_map[cart.productName]}" alt="">
                         <#else>
                             <img src="/images/broken.jpeg" alt="">
                         </#if>
                     </a></td>
                     <td><h4><a href="/show/${cart.productId?c}">${cart.productName}</a></h4></td>
-                    <td><span class="v-num">${cart.cartCount}</span></td>
-                    <td><span class="v-unit">¥</span><span class="value">${cart.cartPrice}</span></td>
+                    <td><span class="v-num">${cart.cartCount?c}</span></td>
+                    <td><span class="v-unit">¥</span><span class="value">${cart.cartPrice?c}</span></td>
                     <td><span class="v-time">${cart.cartTime}</span></td>
-                    <td><button class="u-btn u-btn-primary" id="delete-${cart.id}" onclick="del(${cart.id})">删除</button></td>
+                    <td><button class="u-btn u-btn-primary" id="delete-${cart.id?c}" onclick="del(${cart.id?c})">删除</button></td>
                 </tr>
                 <#assign totalPrice=totalPrice+cart.cartPrice*cart.cartCount>
             </#list>
@@ -79,7 +79,7 @@
             <td colspan="4">
                 <div class="total">总计：</div>
             </td>
-            <td><span class="v-unit">¥</span><span class="v-value">${totalPrice}</span></td>
+            <td><span class="v-unit">¥</span><span class="v-value">${totalPrice?c}</span></td>
         </tr>
         </tfoot>
     </table>
@@ -90,10 +90,10 @@
     function confirmBuy() {
         if(confirm("您是否要购买这些商品？"))
         {
-            var total="${totalPrice}";
-            var balance="${uu.balance}";
+            var total="${totalPrice?c}";
+            var balance="${uu.balance?c}";
             if(parseFloat(balance)<parseFloat(total))
-                alert("您的余额不足！"+total+" balance:"+balance);
+                alert("您的余额不足！");
             else if(parseFloat(total)==0)
                 alert("您的购物车是空的！请添加商品后再购买");
             else

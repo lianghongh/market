@@ -15,6 +15,10 @@ public class InventoryDaoImpl implements InventoryDao {
     @Qualifier("inventoryDao")
     private InventoryDao inventoryDao;
 
+    @Autowired
+    @Qualifier("productDaoImpl")
+    private ProductDaoImpl productDao;
+
 
     @Override
     public Inventory getInventoryById(int id) {
@@ -39,5 +43,12 @@ public class InventoryDaoImpl implements InventoryDao {
     @Override
     public List<Inventory> findInventoryByUserId(String user_id) {
         return inventoryDao.findInventoryByUserId(user_id);
+    }
+
+    public void deleteInventoryHard(int id)
+    {
+        Inventory inventory = getInventoryById(id);
+        productDao.deleteProductById(inventory.getProductId());
+        deleteInventory(id);
     }
 }

@@ -1,11 +1,9 @@
 package com.netease.service.impl;
 
+import com.netease.dao.impl.BusinessmanDaoImpl;
 import com.netease.dao.impl.ProductDaoImpl;
 import com.netease.dao.impl.UserDaoImpl;
-import com.netease.domain.CartInfo;
-import com.netease.domain.Product;
-import com.netease.domain.ShoppingInfo;
-import com.netease.domain.User;
+import com.netease.domain.*;
 import com.netease.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +30,9 @@ public class UserServiceImpl implements UserService {
     @Qualifier("productDaoImpl")
     private ProductDaoImpl productDao;
 
+    @Autowired
+    @Qualifier("businessmanDaoImpl")
+    private BusinessmanDaoImpl businessmanDao;
 
     @Override
     public User getUserByName(String name) {
@@ -82,6 +83,26 @@ public class UserServiceImpl implements UserService {
         {
             Product product = productDao.getProductById(info.getProductId());
             total+=product.getProductPrice()*info.getCartCount();
+            List<Businessman> businessmanList = businessmanDao.getAllBusinessmans();
+            for(Businessman businessman:businessmanList)
+            {
+                boolean found=false;
+                for(Inventory inventory:businessman.getInventoryList())
+                {
+                    if(product.getProductId()==inventory.getProductId())
+                    {
+                        businessman.setBalance(businessman.getBalance()+product.getProductPrice()*info.getCartCount());
+                        inventory.setHasSold(inventory.getHasSold()+info.getCartCount());
+                        found=true;
+                        break;
+                    }
+                }
+                if(found)
+                {
+                    businessmanDao.updateInfo(businessman);
+                    break;
+                }
+            }
         }
         if(u.getBalance()<total)
         {

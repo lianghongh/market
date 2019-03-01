@@ -28,7 +28,7 @@ public class BusinessmanDaoTest extends BaseDaoTest {
     @Test
     public void testGetBusinessmanByUserId()
     {
-        Businessman businessman = dao.getBusinessmanByUserId("cccccc");
+        Businessman businessman = dao.getBusinessmanByUserId("c913c903b8ad38138b64ca3a187282d2");
         Assert.assertNotNull(businessman);
         System.out.println(businessman);
     }
@@ -36,7 +36,7 @@ public class BusinessmanDaoTest extends BaseDaoTest {
     @Test
     public void testGetBusinessmanByNickname()
     {
-        Businessman businessman = dao.getBusinessmanByNickname("管理员");
+        Businessman businessman = dao.getBusinessmanByNickname("林俊杰");
         Assert.assertNotNull(businessman);
         System.out.println(businessman);
     }
@@ -69,24 +69,24 @@ public class BusinessmanDaoTest extends BaseDaoTest {
     @Test
     public void testUpdatePassword()
     {
-        dao.updatePassword("管理员","12345");
-        Assert.assertEquals("12345",dao.getBusinessmanByNickname("管理员").getPassword());
+        dao.updatePassword("林俊杰","12345");
+        Assert.assertEquals("12345",dao.getBusinessmanByNickname("林俊杰").getPassword());
     }
 
     @Test
     public void testUpdateNickname()
     {
-        dao.updateNickname("管理员","大美女");
-        Assert.assertNull(dao.getBusinessmanByNickname("管理员"));
+        dao.updateNickname("林俊杰","大美女");
+        Assert.assertNull(dao.getBusinessmanByNickname("林俊杰"));
         Assert.assertNotNull(dao.getBusinessmanByNickname("大美女"));
     }
 
     @Test
     public void testDeleteByNickname()
     {
-        Businessman businessman = dao.getBusinessmanByNickname("管理员");
-        dao.deleteByNickname("管理员");
-        Assert.assertNull(dao.getBusinessmanByNickname("管理员"));
+        Businessman businessman = dao.getBusinessmanByNickname("林俊杰");
+        dao.deleteByNickname("林俊杰");
+        Assert.assertNull(dao.getBusinessmanByNickname("林俊杰"));
         for(Inventory inventory:businessman.getInventoryList())
             Assert.assertNull(inventoryDao.getInventoryById(inventory.getId()));
     }
@@ -94,9 +94,9 @@ public class BusinessmanDaoTest extends BaseDaoTest {
     @Test
     public void testDeleteByUserId()
     {
-        Businessman businessman = dao.getBusinessmanByUserId("cccccc");
-        dao.deleteByUserId("cccccc");
-        Assert.assertNull(dao.getBusinessmanByUserId("cccccc"));
+        Businessman businessman = dao.getBusinessmanByUserId("c913c903b8ad38138b64ca3a187282d2");
+        dao.deleteByUserId("c913c903b8ad38138b64ca3a187282d2");
+        Assert.assertNull(dao.getBusinessmanByUserId("c913c903b8ad38138b64ca3a187282d2"));
         for(Inventory inventory:businessman.getInventoryList())
             Assert.assertNull(inventoryDao.getInventoryById(inventory.getId()));
     }
@@ -104,9 +104,9 @@ public class BusinessmanDaoTest extends BaseDaoTest {
     @Test
     public void testUpdateInfo()
     {
-        Businessman businessman = dao.getBusinessmanByUserId("dddddd");
+        Businessman businessman = dao.getBusinessmanByUserId("c913c903b8ad38138b64ca3a187282d2");
         Inventory inventory=new Inventory();
-        inventory.setUserId("dddddd");
+        inventory.setUserId("c913c903b8ad38138b64ca3a187282d2");
         inventory.setProductId(12);
         inventory.setCount(1000);
         inventory.setHasSold(12);

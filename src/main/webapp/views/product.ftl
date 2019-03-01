@@ -51,7 +51,10 @@
             <h2>${product.productName}</h2>
             <p class="summary">${product.productAbstract}</p>
             <div class="price">
-                <span class="v-unit">¥</span><span class="v-value">${product.productPrice}</span>
+                <span class="v-unit">¥</span><span class="v-value">${product.productPrice?c}</span>
+            </div>
+            <div class="price">
+                库存剩余：<span class="v-value" id="rest">${inv[product.productId?c]?c}</span>
             </div>
             <div class="num">
                 购买数量：
@@ -105,6 +108,12 @@
 
     function addcart() {
         var count = document.getElementById("allNum").textContent;
+        var rest=document.getElementById("rest").innerHTML;
+        if (count>rest)
+        {
+            alert("商品的库存不足，请重新选择商品数量！");
+            return;
+        }
         if (confirm("您将添加" + count + "件该商品到购物车，是否继续？"))
             window.location.href = "/user/addcart/${product.productId?c}?count=" + count;
     }

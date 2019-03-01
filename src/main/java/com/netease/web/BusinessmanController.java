@@ -104,7 +104,6 @@ public class BusinessmanController {
             if(inventory.getProductId()==p.getProductId())
             {
                 inventory.setProductId(p.getProductId());
-                inventory.setProductName(p.getProductName());
                 businessmanService.updateInventory(businessman.getNickname(),p.getProductId(),inventory);
                 break;
             }
@@ -206,7 +205,7 @@ public class BusinessmanController {
     }
 
     @RequestMapping("/removeinventory")
-    public String removeInventory(HttpSession session, ModelMap modelMap,@RequestParam("id") int id)
+    public String removeInventory(HttpSession session,@RequestParam("id") int id)
     {
         if(session==null||session.getAttribute("user")==null)
         {

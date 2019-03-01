@@ -65,7 +65,7 @@
                         <h3>${p.productName}</h3>
                         <div class="price">
                             <span class="v-unit">￥</span>
-                            <span class="v-value">${p.productPrice}</span>
+                            <span class="v-value">${p.productPrice?c}</span>
                         </div>
                         <#if Session?? && Session["user"]?? && Session["user"].role=="user" && isbuy?? && isbuy[p.productId?c]??>
                             <span class="had"><b>已购买</b></span>

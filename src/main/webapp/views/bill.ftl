@@ -67,8 +67,8 @@
                     </a></td>
                     <td><h4><a href="/show/${bill.productId?c}">${bill.productName}</a></h4></td>
                     <td><span class="v-time">${bill.shoppingTime}</span></td>
-                    <td><span class="v-num">${bill.shoppingCount}</span></td>
-                    <td><span class="v-unit">¥</span><span class="value">${bill.shoppingPrice}</span></td>
+                    <td><span class="v-num">${bill.shoppingCount?c}</span></td>
+                    <td><span class="v-unit">¥</span><span class="value">${bill.shoppingPrice?c}</span></td>
                 </tr>
                 <#assign total=total+bill.shoppingPrice*bill.shoppingCount>
             </#list>
@@ -78,7 +78,7 @@
             <td colspan="4">
                 <div class="total">总计：</div>
             </td>
-            <td><span class="v-unit">¥</span><span class="v-value">${total}</span></td>
+            <td><span class="v-unit">¥</span><span class="v-value">${total?c}</span></td>
         </tr>
         </tfoot>
     </table>

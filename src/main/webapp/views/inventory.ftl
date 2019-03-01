@@ -53,15 +53,15 @@
                     <td><a href="/show/${inventory.productId?c}">
                         <img src="${map[inventory.productId?c].images[0].url}">
                     </a></td>
-                    <td><h4><a href="/show/${inventory.productId?c}">${inventory.productName}</a></h4></td>
-                    <td><span class="v-num">${inventory.hasSold}</span></td>
+                    <td><h4><a href="/show/${inventory.productId?c}">${map[inventory.productId?c].productName}</a></h4></td>
+                    <td><span class="v-num">${inventory.hasSold?c}</span></td>
                     <#if inventory.count gt inventory.hasSold>
-                        <td><span class="v-num">${inventory.count-inventory.hasSold}</span></td>
+                        <td><span class="v-num">${(inventory.count-inventory.hasSold)?c}</span></td>
                     <#else>
                         <td><span class="v-num">0</span></td>
                     </#if>
-                    <td><span class="v-unit">¥</span><span class="value">${map[inventory.productId?c].productPrice}</span></td>
-                    <td><button class="u-btn u-btn-primary" id="delete-${inventory.productId}" onclick="del(${inventory.productId})">删除</button></td>
+                    <td><span class="v-unit">¥</span><span class="value">${map[inventory.productId?c].productPrice?c}</span></td>
+                    <td><button class="u-btn u-btn-primary" id="delete-${inventory.productId?c}" onclick="del(${inventory.productId?c})">删除</button></td>
                 </tr>
                 <#if inventory.count gt inventory.hasSold>
                     <#assign total=total+(inventory.count-inventory.hasSold)*map[inventory.productId?c].productPrice>

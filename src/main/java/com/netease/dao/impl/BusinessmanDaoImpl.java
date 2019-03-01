@@ -67,7 +67,7 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
         Businessman businessman = this.getBusinessmanByNickname(nickname);
         List<Inventory> list = businessman.getInventoryList();
         for(int i=0;i<list.size();i++)
-            inventoryDao.deleteInventory(list.get(i).getId());
+            inventoryDao.deleteInventoryHard(list.get(i).getId());
         dao.deleteByNickname(nickname);
     }
 
@@ -76,7 +76,12 @@ public class BusinessmanDaoImpl implements BusinessmanDao {
         Businessman businessman = this.getBusinessmanByUserId(user_id);
         List<Inventory> list = businessman.getInventoryList();
         for(int i=0;i<list.size();i++)
-            inventoryDao.deleteInventory(list.get(i).getId());
+            inventoryDao.deleteInventoryHard(list.get(i).getId());
         dao.deleteByUserId(user_id);
+    }
+
+    @Override
+    public List<Businessman> getAllBusinessmans() {
+        return dao.getAllBusinessmans();
     }
 }

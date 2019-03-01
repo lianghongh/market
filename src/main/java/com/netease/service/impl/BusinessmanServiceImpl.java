@@ -1,6 +1,7 @@
 package com.netease.service.impl;
 
 import com.netease.dao.impl.BusinessmanDaoImpl;
+import com.netease.dao.impl.InventoryDaoImpl;
 import com.netease.dao.impl.ProductDaoImpl;
 import com.netease.domain.Businessman;
 import com.netease.domain.Inventory;
@@ -28,6 +29,10 @@ public class BusinessmanServiceImpl implements BusinessmanService {
     @Autowired
     @Qualifier("productDaoImpl")
     private ProductDaoImpl productDao;
+
+    @Autowired
+    @Qualifier("inventoryDaoImpl")
+    private InventoryDaoImpl inventoryDao;
 
 
     @Override
@@ -60,7 +65,6 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         Inventory inventory=new Inventory();
         inventory.setUserId(businessman.getUserId());
         inventory.setProductId(product.getProductId());
-        inventory.setProductName(product.getProductName());
         inventory.setCount(count);
         inventory.setHasSold(0);
         businessman.getInventoryList().add(inventory);
@@ -73,12 +77,15 @@ public class BusinessmanServiceImpl implements BusinessmanService {
     public Product removeFromInventory(String name, int productId) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
         Product p = productDao.getProductById(productId);
+        System.out.println(productId);
         List<Inventory> inventoryList=businessman.getInventoryList();
         List<Inventory> r=new ArrayList<>();
         for(Inventory inventory:inventoryList)
         {
             if(inventory.getProductId()!=p.getProductId())
                 r.add(inventory);
+            else
+                inventoryDao.deleteInventoryHard(inventory.getId());
         }
         businessman.setInventoryList(r);
         businessmanDao.updateInfo(businessman);
@@ -94,7 +101,6 @@ public class BusinessmanServiceImpl implements BusinessmanService {
             if(i.getProductId()==productId)
             {
                 i.setProductId(inventory.getProductId());
-                i.setProductName(inventory.getProductName());
                 i.setCount(inventory.getCount());
                 i.setHasSold(inventory.getHasSold());
                 break;
@@ -130,5 +136,10 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         logger.error("商家{}更新昵称失败！请重新更新",name);
         return false;
 
+    }
+
+    @Override
+    public List<Businessman> getAllBusinessmans() {
+        return businessmanDao.getAllBusinessmans();
     }
 }

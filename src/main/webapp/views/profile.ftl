@@ -30,7 +30,7 @@
                 <tr>
                     <td><h3>余额：</h3></td>
                     <td><div class="price">
-                        <span class="v-unit">¥</span><span class="v-value">${profile.balance}</span>
+                        <span class="v-unit">¥</span><span class="v-value">${profile.balance?c}</span>
                     </div></td>
                 </tr>
                 <tr>

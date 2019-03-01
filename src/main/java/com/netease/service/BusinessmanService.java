@@ -23,4 +23,6 @@ public interface BusinessmanService {
     public boolean updatePassword(String name, String new_password);
 
     public boolean updateNickname(String name, String new_name);
+
+    public List<Businessman> getAllBusinessmans();
 }

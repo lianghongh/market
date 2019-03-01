@@ -72,8 +72,9 @@ public class UserController {
         Map<String, String> image_map = new HashMap<>();
         for(ShoppingInfo info:u.getShoppingInfoList())
         {
-            Image image = productService.findImages(info.getProductId()).get(0);
-            image_map.put(image.getProductName(), image.getUrl());
+            List<Image> images=productService.findImages(info.getProductId());
+            if(images!=null&&images.size()>0)
+                image_map.put(images.get(0).getProductName(), images.get(0).getUrl());
         }
         modelMap.addAttribute("image_map",image_map);
         modelMap.addAttribute("billList", u.getShoppingInfoList());

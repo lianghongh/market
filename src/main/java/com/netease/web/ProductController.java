@@ -83,6 +83,24 @@ public class ProductController {
             return "redirect:/";
         }
         modelMap.addAttribute("product", p);
+        Map<String, Integer> inv = new HashMap<>();
+        List<Businessman> businessmanList=businessmanService.getAllBusinessmans();
+        boolean found=false;
+        for(Businessman businessman:businessmanList)
+        {
+            for(Inventory inventory:businessman.getInventoryList())
+            {
+                if(inventory.getProductId()==productId)
+                {
+                    inv.put(""+inventory.getProductId(),inventory.getCount()-inventory.getHasSold());
+                    found=true;
+                    break;
+                }
+            }
+            if(found)
+                break;
+        }
+        modelMap.addAttribute("inv", inv);
         if(session!=null&&session.getAttribute("user")!=null)
         {
             Map<String, String> user = (Map<String, String>) session.getAttribute("user");

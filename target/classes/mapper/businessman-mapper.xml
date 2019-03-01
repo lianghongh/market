@@ -55,4 +55,8 @@
         DELETE FROM t_businessman WHERE user_id=#{user_id}
     </delete>
 
+    <select id="getAllBusinessmans" resultMap="map" resultType="java.util.List">
+        SELECT * FROM t_businessman
+    </select>
+
 </mapper>
