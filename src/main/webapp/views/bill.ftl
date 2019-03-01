@@ -57,8 +57,15 @@
             <#assign total=0>
             <#list billList as bill>
                 <tr>
-                    <td><a href="/show/${bill.productId}"><img src="${image_map[bill.productName]}" alt=""></a></td>
-                    <td><h4><a href="/show/${bill.productId}">${bill.productName}</a></h4></td>
+
+                    <td><a href="/show/${bill.productId?c}">
+                        <#if image_map[bill.productName]??>
+                            <img src="${image_map[bill.productName]}" alt="">
+                        <#else>
+                            <img src="/images/broken.jpeg" alt="">
+                        </#if>
+                    </a></td>
+                    <td><h4><a href="/show/${bill.productId?c}">${bill.productName}</a></h4></td>
                     <td><span class="v-time">${bill.shoppingTime}</span></td>
                     <td><span class="v-num">${bill.shoppingCount}</span></td>
                     <td><span class="v-unit">¥</span><span class="value">${bill.shoppingPrice}</span></td>

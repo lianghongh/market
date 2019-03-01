@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>编辑商品信息</title>
+    <title>发布新商品</title>
     <link rel="stylesheet" href="/css/style.css"/>
 </head><body>
 <div class="n-support">请使用Chrome、Safari等webkit内核的浏览器！</div><div class="n-head">
@@ -22,7 +22,7 @@
         <h2>内容编辑</h2>
     </div>
     <div class="n-public">
-        <form class="m-form m-form-ht" id="form" method="post" onsubmit="return false;" action="/businessman/edit?id=${productId?c}">
+        <form class="m-form m-form-ht" id="form" method="post" onsubmit="return false;">
             <div class="fmitem">
                 <label class="fmlab">商品名称：</label>
                 <div class="fmipt">
@@ -64,9 +64,15 @@
                     <input class="u-ipt price" name="price"/>元
                 </div>
             </div>
+            <div class="fmitem">
+                <label class="fmlab">商品库存：</label>
+                <div class="fmipt">
+                    <input class="u-ipt price" name="count"/>件
+                </div>
+            </div>
             <div class="fmitem fmitem-nolab fmitem-btn">
                 <div class="fmipt">
-                    <button type="submit" class="u-btn u-btn-primary u-btn-lg">保 存</button>
+                    <button type="submit" class="u-btn u-btn-primary u-btn-lg">发 布</button>
                 </div>
             </div>
         </form>
@@ -85,13 +91,29 @@
         var image = form['image'];
         var detail = form['detail'];
         var price = form['price'];
+        var count = form['count'];
         var uploadInput = form['file'];
         var isSubmiting = false;
         var imgpre = document.getElementById('imgpre');
         var imageUrl;
         var imageMode = "urlUpload";
 
+        var up=false;
 
+        var id=0;
+
+
+        function hashCode(str) {
+            var hash = 0, i, chr, len;
+            if (str.length === 0)
+                return hash;
+            for (i = 0, len = str.length; i < len; i++) {
+                chr   = str.charCodeAt(i);
+                hash  = ((hash << 5) - hash) + chr;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        }
 
         var page = {
             init:function(){
@@ -132,7 +154,13 @@
                         form.enctype = "multipart/form-data";
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open("post", "/businessman/upload?id=${productId?c}", true);
+                        if(title.value==null||title.value=="")
+                        {
+                            alert("商品的ID需要由商品名生成，请先填写商品名。");
+                            return;
+                        }
+                        id=hashCode(title.value);
+                        xhr.open("post", "/businessman/upload?id="+id, true);
                         xhr.onload = function () {
                             if (xhr.status === 200) {
                                 alert("文件上传成功！");
@@ -141,7 +169,8 @@
                                 var name= o && o.name;
                                 image.value = imageUrl;
                                 imgpre.src = imageUrl;
-                                document.getElementById("form").action="/businessman/edit?id=${productId?c}&name="+name+"&url="+imageUrl;
+                                document.getElementById("form").action="/businessman/publish?id="+id+"&name="+name+"&url="+imageUrl;
+                                up=true;
                             } else {
                                 alert('An error occurred!');
                             }
@@ -152,11 +181,19 @@
                 form.addEventListener('submit',function(e){
                     if(!isSubmiting && this.check()){
                         price.value = Number(price.value);
+                        if(title.value==null||title.value=="")
+                        {
+                            alert("商品的ID需要由商品名生成，请先填写商品名。");
+                            return;
+                        }
+                        id=hashCode(title.value);
+                        if(!up)
+                            form.action="/businessman/publish?id="+id;
                         isSubmiting = true;
                         form.submit();
                     }
                 }.bind(this),false);
-                [title,summary,image,detail,price].forEach(function(item){
+                [title,summary,image,detail,price,count].forEach(function(item){
                     item.addEventListener('input',function(e){
                         item.classList.remove('z-err');
                     }.bind(this),false);
@@ -175,7 +212,8 @@
                     [summary,function(value){return value.length<2 || value.length>140}],
                     [image,function(value){return imageMode == "urlUpload" && value == ''}],
                     [detail,function(value){return value.length<2 || value.length>1000}],
-                    [price,function(value){return value == '' || !Number(value)}]
+                    [price,function(value){return value == '' || !Number(value)}],
+                        [count,function(value){return value == '' || !Number(value)}]
                 ].forEach(function(item){
                     var value = item[0].value.trim();
                     if(item[1](value)){

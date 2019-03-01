@@ -12,6 +12,8 @@ public interface ImageDao {
 
     public void deleteImageById(int id);
 
+    public void deleteImageByProductId(int productId);
+
     public void updateImage(Image image);
 
     public void insertImage(Image image);

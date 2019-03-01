@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -60,7 +60,11 @@ public class BusinessmanController {
         return "modify.ftl";
     }
 
-    @Transactional
+    @RequestMapping("/publishpage")
+    public String publishPage(){
+        return "publish.ftl";
+    }
+
     @RequestMapping("/edit")
     public String editProduct(HttpServletRequest request, @RequestParam("id") int productId)
     {
@@ -99,6 +103,8 @@ public class BusinessmanController {
         {
             if(inventory.getProductId()==p.getProductId())
             {
+                inventory.setProductId(p.getProductId());
+                inventory.setProductName(p.getProductName());
                 businessmanService.updateInventory(businessman.getNickname(),p.getProductId(),inventory);
                 break;
             }
@@ -116,6 +122,11 @@ public class BusinessmanController {
             logger.error("您还没有登录！");
             return null;
         }
+        if(productService.getProduct(productId)!=null)
+        {
+            logger.error("已经存在相同的商品！");
+            return null;
+        }
         if(file!=null&&!file.isEmpty())
         {
             String name=file.getOriginalFilename();
@@ -128,5 +139,87 @@ public class BusinessmanController {
             return image;
         }
         return null;
+    }
+
+
+    @RequestMapping("/publish")
+    public String publishProduct(HttpServletRequest request,ModelMap modelMap)
+    {
+        HttpSession session=request.getSession();
+        if(session.getAttribute("user")==null)
+        {
+            logger.error("您没有登录！");
+            return "redirect:/";
+        }
+
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        Businessman businessman = businessmanService.getBusinessmanByName(user.get("name"));
+        Product p = new Product();
+        p.setProductId(Integer.parseInt(request.getParameter("id")));
+        if(productService.getProduct(p.getProductId())!=null)
+        {
+            logger.error("已经存在相同的商品！");
+            modelMap.addAttribute("productName", request.getParameter("title"));
+            return "publish_error.ftl";
+        }
+        p.setProductName(request.getParameter("title"));
+        p.setProductAbstract(request.getParameter("summary"));
+        p.setProductDescription(request.getParameter("detail"));
+        p.setProductPrice(Double.parseDouble(request.getParameter("price")));
+        Image image = new Image();
+        image.setProductId(p.getProductId());
+        image.setProductName(p.getProductName());
+        if(request.getParameter("image")!=null)
+        {
+            String[] images=request.getParameter("image").split("/");
+            image.setName(images[images.length-1]);
+            image.setUrl(request.getParameter("image"));
+        }
+        else
+        {
+            image.setName(request.getParameter("name"));
+            image.setUrl(request.getParameter("url"));
+        }
+        p.setImages(Arrays.asList(image));
+        productService.addProduct(p);
+        businessmanService.addInventory(businessman.getNickname(), p, Integer.parseInt(request.getParameter("count")));
+        return "redirect:/";
+    }
+
+    @RequestMapping("/inventory")
+    public String showInventory(HttpSession session,ModelMap modelMap)
+    {
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您还没有登录！");
+            return "redirect:/";
+        }
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        Map<String, Object> map = new HashMap<>();
+        Businessman businessman = businessmanService.getBusinessmanByName(user.get("name"));
+        for(Inventory inventory:businessman.getInventoryList())
+            map.put(inventory.getProductId()+"",productService.getProduct(inventory.getProductId()));
+        modelMap.addAttribute("inventories", businessman.getInventoryList());
+        modelMap.addAttribute("map", map);
+        System.out.println(map);
+        return "inventory.ftl";
+    }
+
+    @RequestMapping("/removeinventory")
+    public String removeInventory(HttpSession session, ModelMap modelMap,@RequestParam("id") int id)
+    {
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您还未登录！");
+            return "redirect:/";
+        }
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
+        businessmanService.removeFromInventory(user.get("name"),id);
+        return "redirect:/businessman/inventory";
     }
 }

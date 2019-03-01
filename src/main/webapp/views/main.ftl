@@ -36,7 +36,8 @@
                     <li><a href="/user/bill">账单</a></li>
                     <li><a href="/user/cart">购物车</a></li>
                 <#elseif Session["user"].role=="businessman">
-                    <li><a href="/businessman/publish">发布</a></li>
+                    <li><a href="/businessman/publishpage">发布</a></li>
+                    <li><a href="/businessman/inventory">库存管理</a></li>
                 </#if>
             </#if>
         </ul>
@@ -56,8 +57,8 @@
     <div class="n-plist">
         <ul class="f-cb" id="plist">
             <#list productList as p>
-                <li id=${"p-"+p.productId}>
-                    <a href="/show/${p.productId}" class="link">
+                <li id=${"p-"+p.productId?c}>
+                    <a href="/show/${p.productId?c}" class="link">
                         <div class="img">
                             <img src="${p.images[0].url}" alt="${p.productName}">
                         </div>

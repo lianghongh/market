@@ -36,7 +36,7 @@
                     <li><a href="/user/bill">账单</a></li>
                     <li><a href="/user/cart">购物车</a></li>
                 <#elseif Session["user"].role=="businessman">
-                    <li><a href="/businessman/publish">发布</a></li>
+                    <li><a href="/businessman/publishpage">发布</a></li>
                 </#if>
             </#if>
         </ul>
@@ -68,7 +68,7 @@
                     </div>
                 <#elseif Session["user"].role=="businessman" && canEdit[product.productId?c]??>
                     <div class="oprt f-cb">
-                        <a href="/businessman/product?id=${product.productId}">
+                        <a href="/businessman/product?id=${product.productId?c}">
                             <button class="u-btn u-btn-primary" id="addCart">
                                 编 辑
                             </button>
@@ -106,7 +106,7 @@
     function addcart() {
         var count = document.getElementById("allNum").textContent;
         if (confirm("您将添加" + count + "件该商品到购物车，是否继续？"))
-            window.location.href = "/user/addcart/${product.productId}?count=" + count;
+            window.location.href = "/user/addcart/${product.productId?c}?count=" + count;
     }
 </script>
 </body>

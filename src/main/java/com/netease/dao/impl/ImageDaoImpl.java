@@ -26,6 +26,11 @@ public class ImageDaoImpl implements ImageDao {
     }
 
     @Override
+    public void deleteImageByProductId(int productId) {
+        imageDao.deleteImageByProductId(productId);
+    }
+
+    @Override
     public void updateImage(Image image) {
         imageDao.updateImage(image);
     }

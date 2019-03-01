@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,36 +53,31 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         return result;
     }
 
+    @Transactional
     @Override
     public void addInventory(String name, Product product,int count) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
         Inventory inventory=new Inventory();
         inventory.setUserId(businessman.getUserId());
         inventory.setProductId(product.getProductId());
+        inventory.setProductName(product.getProductName());
         inventory.setCount(count);
         inventory.setHasSold(0);
         businessman.getInventoryList().add(inventory);
+        businessmanDao.updateInfo(businessman);
         logger.info("添加商品{}，添加数量{}",product.getProductName(),count);
     }
 
+    @Transactional
     @Override
-    public Product removeFromInventory(String name, String productName, int count) {
+    public Product removeFromInventory(String name, int productId) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
-        Product p = productDao.getProductByName(productName);
+        Product p = productDao.getProductById(productId);
         List<Inventory> inventoryList=businessman.getInventoryList();
         List<Inventory> r=new ArrayList<>();
         for(Inventory inventory:inventoryList)
         {
-            if(inventory.getProductId()==p.getProductId())
-            {
-                if(inventory.getCount()>count)
-                {
-                    inventory.setCount(inventory.getCount()-count);
-                    r.add(inventory);
-                    logger.info("删除商品{}，剩余存量：{}",productName,inventory.getCount());
-                }
-            }
-            else
+            if(inventory.getProductId()!=p.getProductId())
                 r.add(inventory);
         }
         businessman.setInventoryList(r);
@@ -89,6 +85,7 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         return p;
     }
 
+    @Transactional
     @Override
     public void updateInventory(String name, int productId, Inventory inventory) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
@@ -106,6 +103,7 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         businessmanDao.updateInfo(businessman);
     }
 
+    @Transactional
     @Override
     public boolean updatePassword(String name, String new_password) {
         businessmanDao.updatePassword(name,new_password);
@@ -119,6 +117,7 @@ public class BusinessmanServiceImpl implements BusinessmanService {
         return false;
     }
 
+    @Transactional
     @Override
     public boolean updateNickname(String name, String new_name) {
         businessmanDao.updateNickname(name,new_name);

@@ -16,7 +16,7 @@ public interface BusinessmanService {
 
     public void addInventory(String name, Product product,int count);
 
-    public Product removeFromInventory(String name,String productName,int count);
+    public Product removeFromInventory(String name, int productId);
 
     public void updateInventory(String name, int productId,Inventory inventory);
 

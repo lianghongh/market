@@ -11,6 +11,7 @@ import com.netease.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +69,17 @@ public class ProductServiceImpl implements ProductService {
         return imageDao.findImageByProductId(productId);
     }
 
+    @Transactional
     @Override
     public void updateInfo(Product p) {
         productDao.updateProduct(p);
     }
+
+
+    @Transactional
+    @Override
+    public void addProduct(Product p) {
+        productDao.insertProduct(p);
+    }
+
 }

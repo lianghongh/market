@@ -77,6 +77,11 @@ public class ProductController {
     public String showProduct(@PathVariable("id") int productId,ModelMap modelMap,HttpSession session)
     {
         Product p = productService.getProduct(productId);
+        if(p==null)
+        {
+            logger.error("商品已被移除！");
+            return "redirect:/";
+        }
         modelMap.addAttribute("product", p);
         if(session!=null&&session.getAttribute("user")!=null)
         {

@@ -58,8 +58,14 @@
             <#assign totalPrice=0>
             <#list cartInfo as cart>
                 <tr>
-                    <td><a href="/show/${cart.productId}"><img src="${image_map[cart.productName]}" alt=""></a></td>
-                    <td><h4><a href="/show/${cart.productId}">${cart.productName}</a></h4></td>
+                    <td><a href="/show/${bill.productId?c}">
+                        <#if image_map[bill.productName]??>
+                            <img src="${image_map[bill.productName]}" alt="">
+                        <#else>
+                            <img src="/images/broken.jpeg" alt="">
+                        </#if>
+                    </a></td>
+                    <td><h4><a href="/show/${cart.productId?c}">${cart.productName}</a></h4></td>
                     <td><span class="v-num">${cart.cartCount}</span></td>
                     <td><span class="v-unit">¥</span><span class="value">${cart.cartPrice}</span></td>
                     <td><span class="v-time">${cart.cartTime}</span></td>

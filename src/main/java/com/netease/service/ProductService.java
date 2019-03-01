@@ -17,4 +17,6 @@ public interface ProductService {
 
     public void updateInfo(Product p);
 
+    public void addProduct(Product p);
+
 }
