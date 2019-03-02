@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -117,14 +116,22 @@ public class ProductController {
     }
 
     @RequestMapping("/notbuy")
-    public ModelAndView showNotBuy(HttpSession session)
+    public String showNotBuy(HttpSession session,ModelMap modelMap)
     {
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您还未登录！");
+            return "redirect:/";
+        }
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
-        ModelAndView modelAndView = new ModelAndView();
+        if(!"user".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         List<Product> products=productService.notBuy(user.get("name"));
-        modelAndView.addObject("productList", products);
-        modelAndView.setViewName("main.ftl");
-        return modelAndView;
+        modelMap.addAttribute("productList", products);
+        return "main.ftl";
     }
 
 }

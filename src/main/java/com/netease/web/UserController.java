@@ -110,7 +110,7 @@ public class UserController {
     }
 
     @RequestMapping("/purchase")
-    public String purchase(HttpSession session,ModelMap modelMap)
+    public String purchase(HttpSession session)
     {
         if(session==null||session.getAttribute("user")==null)
         {

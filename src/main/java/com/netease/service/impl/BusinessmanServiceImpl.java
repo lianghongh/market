@@ -77,7 +77,6 @@ public class BusinessmanServiceImpl implements BusinessmanService {
     public Product removeFromInventory(String name, int productId) {
         Businessman businessman = businessmanDao.getBusinessmanByNickname(name);
         Product p = productDao.getProductById(productId);
-        System.out.println(productId);
         List<Inventory> inventoryList=businessman.getInventoryList();
         List<Inventory> r=new ArrayList<>();
         for(Inventory inventory:inventoryList)

@@ -49,19 +49,46 @@ public class BusinessmanController {
             return "redirect:/";
         }
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         Businessman businessman=businessmanService.getBusinessmanByName(user.get("name"));
         modelMap.addAttribute("profile", businessman);
         return "profile.ftl";
     }
 
     @RequestMapping("/product")
-    public String modify(@RequestParam("id") int id,ModelMap modelMap){
+    public String modify(@RequestParam("id") int id,ModelMap modelMap,HttpSession session){
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您没有登录！");
+            return "redirect:/";
+        }
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         modelMap.addAttribute("productId", id);
         return "modify.ftl";
     }
 
     @RequestMapping("/publishpage")
-    public String publishPage(){
+    public String publishPage(HttpSession session){
+        if(session==null||session.getAttribute("user")==null)
+        {
+            logger.error("您没有登录！");
+            return "redirect:/";
+        }
+        Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         return "publish.ftl";
     }
 
@@ -76,6 +103,11 @@ public class BusinessmanController {
         }
 
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         Businessman businessman = businessmanService.getBusinessmanByName(user.get("name"));
 
         Product p = productService.getProduct(productId);
@@ -150,8 +182,12 @@ public class BusinessmanController {
             logger.error("您没有登录！");
             return "redirect:/";
         }
-
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         Businessman businessman = businessmanService.getBusinessmanByName(user.get("name"));
         Product p = new Product();
         p.setProductId(Integer.parseInt(request.getParameter("id")));
@@ -194,13 +230,17 @@ public class BusinessmanController {
             return "redirect:/";
         }
         Map<String, String> user = (Map<String, String>) session.getAttribute("user");
+        if(!"businessman".equals(user.get("role")))
+        {
+            logger.error("您没有权限进行该操作！");
+            return "redirect:/";
+        }
         Map<String, Object> map = new HashMap<>();
         Businessman businessman = businessmanService.getBusinessmanByName(user.get("name"));
         for(Inventory inventory:businessman.getInventoryList())
             map.put(inventory.getProductId()+"",productService.getProduct(inventory.getProductId()));
         modelMap.addAttribute("inventories", businessman.getInventoryList());
         modelMap.addAttribute("map", map);
-        System.out.println(map);
         return "inventory.ftl";
     }
 
