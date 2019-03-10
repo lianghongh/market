@@ -30,7 +30,6 @@
         </div>
     </#if>
         <ul class="nav">
-            <li><a href="/">首页</a></li>
             <#if Session?? && Session["user"]??>
                 <#if Session["user"].role=="user">
                     <li><a href="/user/bill">账单</a></li>
@@ -39,6 +38,7 @@
                     <li><a href="/businessman/publishpage">发布</a></li>
                 </#if>
             </#if>
+            <li><a href="/">首页</a></li>
         </ul>
     </div>
 </div>
@@ -90,13 +90,13 @@
 </div>
 <script type="text/javascript">
     function add() {
-        var num = document.getElementById("allNum").textContent;
+        var num = parseInt(document.getElementById("allNum").textContent);
         num++;
         document.getElementById("allNum").innerHTML = num;
     }
 
     function remove() {
-        var num = document.getElementById("allNum").textContent;
+        var num = parseInt(document.getElementById("allNum").textContent);
         if (num > 0) {
             num--;
             document.getElementById("allNum").innerHTML = num;
@@ -107,8 +107,8 @@
     }
 
     function addcart() {
-        var count = document.getElementById("allNum").textContent;
-        var rest=document.getElementById("rest").innerHTML;
+        var count = parseInt(document.getElementById("allNum").textContent);
+        var rest=parseInt(document.getElementById("rest").textContent);
         if (count>rest)
         {
             alert("商品的库存不足，请重新选择商品数量！");

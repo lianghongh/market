@@ -30,16 +30,16 @@
         </div>
     </#if>
         <ul class="nav">
-            <li><a href="/">首页</a></li>
             <#if Session?? && Session["user"]??>
                 <#if Session["user"].role=="user">
                     <li><a href="/user/bill">账单</a></li>
                     <li><a href="/user/cart">购物车</a></li>
                 <#elseif Session["user"].role=="businessman">
-                    <li><a href="/businessman/publishpage">发布</a></li>
                     <li><a href="/businessman/inventory">库存管理</a></li>
+                    <li><a href="/businessman/publishpage">发布</a></li>
                 </#if>
             </#if>
+            <li><a href="/">首页</a></li>
         </ul>
     </div>
 </div>

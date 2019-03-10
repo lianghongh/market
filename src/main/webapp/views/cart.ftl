@@ -21,11 +21,11 @@
             </div>
          </#if>
         <ul class="nav">
-            <li><a href="/">首页</a></li>
             <#if Session?? && Session["user"]?? && Session["user"].role=="user">
                 <li><a href="/user/bill">账单</a></li>
                 <li><a href="/user/cart">购物车</a></li>
             </#if>
+            <li><a href="/">首页</a></li>
         </ul>
     </div>
 </div>
