@@ -171,7 +171,7 @@ select.u-ipt{width:auto;padding:0;line-height:1;}
 .n-head .user a{margin-right:5px;}
 .n-head .nav{float:left;}
 .n-head .nav ul{}
-.n-head .nav li{position:relative;float:right;padding-right:20px;}
+.n-head .nav li{float:right;padding-right:20px;}
 .n-head .nav li+li:after{content: '';position: absolute;left:10px;top:50%;margin-top:-8px;height:16px;border-left:1px solid rgba(255,255,255,0.4);}
 
 .n-head .nav a{display:block;padding:0 15px;font-size:16px;border-radius:2px;transition:background-color 0.2s;}

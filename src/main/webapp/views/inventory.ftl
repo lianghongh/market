@@ -73,7 +73,7 @@
             <td colspan="4">
                 <div class="total">商品总价值：</div>
             </td>
-            <td><span class="v-unit">¥</span><span class="v-value">${total}</span></td>
+            <td><span class="v-unit">¥</span><span class="v-value">${total?c}</span></td>
         </tr>
         </tfoot>
     </table>
