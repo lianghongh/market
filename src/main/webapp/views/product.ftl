@@ -35,6 +35,7 @@
                     <li><a href="/user/bill">账单</a></li>
                     <li><a href="/user/cart">购物车</a></li>
                 <#elseif Session["user"].role=="businessman">
+                    <li><a href="/businessman/inventory">库存管理</a></li>
                     <li><a href="/businessman/publishpage">发布</a></li>
                 </#if>
             </#if>
@@ -97,12 +98,12 @@
 
     function remove() {
         var num = parseInt(document.getElementById("allNum").textContent);
-        if (num > 0) {
+        if (num > 1) {
             num--;
             document.getElementById("allNum").innerHTML = num;
         }
         else {
-            alert("您还没有购买任何商品！");
+            alert("至少要购买一件商品！");
         }
     }
 
